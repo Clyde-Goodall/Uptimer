@@ -1,26 +1,30 @@
 from win10toast import ToastNotifier as toast
 import socket, schedule, json, time
+from datetime import date
 
+#Entire uptimer class
 class Uptimer:
 
-    def __init__(self):
+    def __init__(self, interval, mute):
 
         self.duration = 0
-        self.mute = False
-        self.t = ToastNotifier()
-        self.interval = 30
+        self.mute = mute
+        self.t = toast()
+        self.interval = interval
         self.disconnected = False 
-        self.initial_disconnect = False
         # self.lastTime = None
         self.datetime = None
-        self.resumed = False
+
+        self.init_schedule()
+
 
     #notifies user connection is down
     def notify(self, msg):
-        if(self.initial_disconnect):
-            if(!self.mute):
-                self.t.show_toast("Uptimer", msg, threaded=True, icon_path=None, duration=3)
-                self.initial_disconnect = False
+        if(self.mute == False):
+            self.t.show_toast("Uptimer", msg, threaded=True, icon_path=None, duration=3)
+            self.initial_disconnect = False
+
+
 
     #function for schedule to try connection every X amount of time
     def poll(self):
@@ -28,32 +32,39 @@ class Uptimer:
         try:
             host = socket.gethostbyname('1.1.1.1')
             sock = socket.create_connection((host, 80), 2)   
-
+            print("Ping successful")
             if(self.diconnected):
-                self.resumed = True
                 self.disconnected = False
-            else:
-                self.resumed = False
 
             
-
+        #connection fails:
         except:
+            if(self.disconnected == False):
+                msg = "Could not establish connecton to server, recording instance."
+                print(msg)     
+                self.record()
+                self.notify(msg)
             self.disconnected = True
-            self.initial_disconnect = True
-            self.msg = "Could not establish connecton to server, recording instance."
-            print(self.msg)
-            self.notify(self.msg)
-            self.record()
+            
+              
+
 
     #writes to json
     def record(self):
-        time = time.asctime(time.localtime(time.time()))
+        
+        data = {}
 
+        data[date.today().strftime("%B %d %Y")] = time.localtime(time.time())
 
-    def init_schedule(interval):
+        #file write goes here
+        with open('log.json', 'w') as out:
+            out.write(json.dumps(data))
 
+    def init_schedule(self):
 
-        schedule.every(30).seconds.do(self.poll())
+        schedule.every(self.interval).seconds.do(self.poll())
 
         while True:
             schedule.run_pending()
+
+Uptimer(30, False)
