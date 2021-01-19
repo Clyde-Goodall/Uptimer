@@ -2,6 +2,8 @@ from win10toast import ToastNotifier as toast
 import socket, csv, time, schedule
 from timeit import default_timer as timer
 from datetime import datetime
+import tray
+
 
 
 #Entire uptimer class
@@ -17,14 +19,14 @@ class Uptimer:
         self.recording = False
         # self.lastTime = None
         self.datetime = None
-      
+        self.pause = False
         self.init_schedule()
 
 
     #notifies user connection is down
     def notify(self, msg):
         if(self.mute == False):
-            self.t.show_toast("Uptimer", msg, threaded=True, icon_path=None, duration=3)
+            self.t.show_toast("Uptimer", msg, threaded=True, icon_path="icon.ico", duration=3)
             self.initial_disconnect = False
 
 
@@ -77,7 +79,7 @@ class Uptimer:
 
         schedule.every(self.interval).seconds.do(self.poll)
 
-        while True:
+        while not self.pause:
             schedule.run_pending()
             time.sleep(1)
-
+    

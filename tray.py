@@ -1,29 +1,41 @@
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-import up
-import sys
+import sys, os, up
+from multiprocessing import Process
 
-uptimer_ui = QApplication([])
-uptimer_ui.setQuitOnLastWindowClosed(False)
+class UptimerTray():
 
+    def view_log():
+        view.ViewLog().loadCsv()
 
-
-
-def exit_program():
-    Sys.exit("Closing")
-
-icon = QIcon("icon.png")
-tray = QSystemTrayIcon()
-tray.setIcon(icon)
-tray.setVisible(True)
-
-menu = QMenu()
-menu_exit = QAction("Exit")
-menu_exit.triggered.connect(exit_program)
-menu.addAction(menu_exit)
-
-tray.setContextMenu(menu)
+    #initialization
+    def __init__(self):
 
 
-up.Uptimer(5, False)
-uptimer_ui.exec_()
+        self.uptimer_tray = QApplication([])
+        self.uptimer_tray.setQuitOnLastWindowClosed(False)
+
+
+        self.icon = QIcon("icon.png")
+        self.tray = QSystemTrayIcon()
+        self.tray.setIcon(self.icon)
+        self.tray.setVisible(True)
+
+        #tray menu
+        self.menu = QMenu()
+        self.menu_exit = QAction("Exit")
+        self.menu_exit.triggered.connect(os._exit)
+
+        self.log = QAction("View Log")
+        self.log.triggered.connect(self.view_log)
+
+        self.menu.addAction(self.log)
+        self.menu.addAction(self.menu_exit)
+
+        self.tray.setContextMenu(self.menu)
+        
+        self.uptimer_tray.exec_()
+        
+
+if __name__ == "__main__":
+    UptimerTray()
