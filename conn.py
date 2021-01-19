@@ -52,19 +52,30 @@ class Uptimer:
     #writes to json
     def record(self):
         
-        data = {}
+        data = json.dumps(
+                {
+                    
+                   date.today().strftime("%m/%d/%Y")  :  time.localtime(time.time()) 
 
-        data[date.today().strftime("%B %d %Y")] = time.localtime(time.time())
+                }
+            )
 
         #file write goes here
+        with open('log.json', 'r') as r:
+            f = r.read()
+        
+        j = json.loads(f)
+        j.update(data)
+        
         with open('log.json', 'w') as out:
-            out.write(json.dumps(data))
+            out.write(json.dumps(j))
 
     def init_schedule(self):
 
-        schedule.every(self.interval).seconds.do(self.poll())
+        schedule.every(self.interval).seconds.do(self.poll)
 
         while True:
             schedule.run_pending()
+            time.sleep(1)
 
-Uptimer(30, False)
+Uptimer(2, False)
