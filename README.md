@@ -1,9 +1,9 @@
 # Uptimer
-Python network uptime/outage tracker
+Python network uptime/outage logger
 
  # Why?
- I hate AT&T. I want a tangible, visual representation of why they suck so bad that my internet has to go out 2-3 times a day, every day, for 4 years
+ I want a tangible, visual representation of how often my connection goes out every day, thanks to AT&T. Works for any connection, and will yield a CSV file as a log.
  
   # TODO
- charting of outage occurrence/duration
+ charting of outage occurrence/duration, optional mailer.
  

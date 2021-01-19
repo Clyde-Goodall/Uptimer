@@ -3,6 +3,7 @@ import socket, csv, time, schedule
 from timeit import default_timer as timer
 from datetime import datetime
 
+
 #Entire uptimer class
 class Uptimer:
 
@@ -53,6 +54,7 @@ class Uptimer:
                 self.elapsed = timer() - self.disc
                 print("downtime: " + str(self.elapsed))
                 self.record(self.time_of_outage, self.elapsed)
+                self.notify("Connection back online")
                 
                 
 
@@ -65,7 +67,7 @@ class Uptimer:
         
         outage_date = datetime.now().strftime("%m/%d/%Y")
         #file write goes here
-        with open('log.csv', 'w') as c:
+        with open('log.csv', 'a+', newline='') as c:
             writer = csv.writer(c)
             print("Instance recorded")
             writer.writerow([outage_date, time, elapsed])
@@ -79,4 +81,3 @@ class Uptimer:
             schedule.run_pending()
             time.sleep(1)
 
-Uptimer(5, False)
