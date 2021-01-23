@@ -7,6 +7,7 @@ Python network uptime/outage logger
  ##Usage
  simply run 
  `python tray.py`
+ 
  I will be releasing it as a standalone in the future, however.
  
 ## TODO
