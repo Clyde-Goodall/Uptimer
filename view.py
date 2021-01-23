@@ -1,9 +1,13 @@
 import csv, sys
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import ctypes
 
 class ViewLog(QtWidgets.QWidget):
     def __init__(self, fileName, parent=None):
+        self.id = 'uptimer'
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(self.id)
+
         super(ViewLog, self).__init__(parent)
         self.fileName = "log.csv"
 
@@ -13,7 +17,7 @@ class ViewLog(QtWidgets.QWidget):
         self.tableView = QtWidgets.QTableView(self)
         self.tableView.setModel(self.model)
         self.tableView.horizontalHeader().setStretchLastSection(True)
-        self.resize(700, 500)
+        self.resize(350, 500)
 
 
         self.layoutVertical = QtWidgets.QVBoxLayout(self)
@@ -36,6 +40,7 @@ if __name__ == "__main__":
     filename = "log.csv"
     app = QtWidgets.QApplication(sys.argv)
     app.setApplicationName('Uptimer')
+    app.setWindowIcon(QtGui.QIcon('icon.ico'))
 
     main = ViewLog("log.csv")
     main.show()
