@@ -1,11 +1,11 @@
-import csv
+import csv, sys
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class ViewLog(QtWidgets.QWidget):
     def __init__(self, fileName, parent=None):
-        super(MyWindow, self).__init__(parent)
-        self.fileName = fileName
+        super(ViewLog, self).__init__(parent)
+        self.fileName = "log.csv"
 
         self.model = QtGui.QStandardItemModel(self)
 
@@ -56,13 +56,13 @@ class ViewLog(QtWidgets.QWidget):
     def on_pushButtonLoad_clicked(self):
         self.loadCsv(self.fileName)
 
-if __name__ == "__main__":
-    import sys
+# if __name__ == "__main__":
+#     import sys
+#     filename = "log.csv"
+#     app = QtWidgets.QApplication(sys.argv)
+#     app.setApplicationName('Uptimer')
 
-    app = QtWidgets.QApplication(sys.argv)
-    app.setApplicationName('Uptimer')
+#     main = ViewLog("log.csv")
+#     main.show()
 
-    main = MyWindow("log.csv")
-    main.show()
-
-    sys.exit(app.exec_())
+#     sys.exit(app.exec_())

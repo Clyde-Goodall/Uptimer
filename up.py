@@ -83,3 +83,8 @@ class Uptimer:
             schedule.run_pending()
             time.sleep(1)
     
+if __name__ == "__main__":
+    try:
+        Uptimer(15, False)
+    except Exception as e:
+        print(e)
