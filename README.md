@@ -1,8 +1,14 @@
 # Uptimer
-Python network uptime/outage logger
+ Python network tool for outage detection
 
 ## Why?
- I want a tangible, visual representation of how often my connection goes out every day, thanks to AT&T. Works for any connection, and will yield a CSV file as a log.
+ I want a tangible, visual representation of how often my connection goes out every day. Works for any connection, and will yield a CSV file as a log.
+ 
+## Usage
+ Simply run 
+ `python tray.py`
+ 
+ I will be releasing it as a standalone in the future, however.
  
 ## TODO
  charting of outage occurrence/duration, optional mailer.
