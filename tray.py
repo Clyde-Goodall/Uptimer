@@ -10,7 +10,7 @@ class UptimerTray():
     #initialization
     def __init__(self):
         self.background = None
-
+        self.window = None
 
         self.uptimer_tray_application = QApplication(sys.argv)
         self.uptimer_tray_application.setQuitOnLastWindowClosed(False)
@@ -25,26 +25,35 @@ class UptimerTray():
 
         #tray menu/menu items
         self.menu = QMenu()
+        self.menu_view = QAction("View Log")
         self.menu_start = QAction("Start")
         self.menu_pause  = QAction("Pause")
         self.menu_exit = QAction("Exit")
         
+        self.menu_view.triggered.connect(self.view_log)
         self.menu_exit.triggered.connect(self.shut_down)
         self.menu_start.triggered.connect(self.start)
         self.menu_pause.triggered.connect(self.pause)
 
         #Menu actions
+        self.menu.addAction(self.menu_view)
         self.menu.addAction(self.menu_start)
         self.menu.addAction(self.menu_pause)
+   
         self.menu.addAction(self.menu_exit)
 
         self.tray.setContextMenu(self.menu)
 
         self.start()
-        
+
         self.uptimer_tray_application.exec_()
 
  
+    def view_log(self):
+        try:
+            self.window = Popen(['python', 'view.py'])
+        except Exception as e:
+            print(e)
 
 
     def shut_down(self):

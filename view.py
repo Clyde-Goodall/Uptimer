@@ -7,24 +7,20 @@ class ViewLog(QtWidgets.QWidget):
         super(ViewLog, self).__init__(parent)
         self.fileName = "log.csv"
 
+
         self.model = QtGui.QStandardItemModel(self)
 
         self.tableView = QtWidgets.QTableView(self)
         self.tableView.setModel(self.model)
         self.tableView.horizontalHeader().setStretchLastSection(True)
+        self.resize(700, 500)
 
-        self.pushButtonLoad = QtWidgets.QPushButton(self)
-        self.pushButtonLoad.setText("Load Csv File!")
-        self.pushButtonLoad.clicked.connect(self.on_pushButtonLoad_clicked)
-
-        self.pushButtonWrite = QtWidgets.QPushButton(self)
-        self.pushButtonWrite.setText("Write Csv File!")
-        self.pushButtonWrite.clicked.connect(self.on_pushButtonWrite_clicked)
 
         self.layoutVertical = QtWidgets.QVBoxLayout(self)
         self.layoutVertical.addWidget(self.tableView)
-        self.layoutVertical.addWidget(self.pushButtonLoad)
-        self.layoutVertical.addWidget(self.pushButtonWrite)
+
+
+        self.loadCsv(fileName)
 
     def loadCsv(self, fileName):
         with open(fileName, "r") as fileInput:
@@ -35,34 +31,13 @@ class ViewLog(QtWidgets.QWidget):
                 ]
                 self.model.appendRow(items)
 
-    def writeCsv(self, fileName):
-        with open(fileName, "w") as fileOutput:
-            writer = csv.writer(fileOutput)
-            for rowNumber in range(self.model.rowCount()):
-                fields = [
-                    self.model.data(
-                        self.model.index(rowNumber, columnNumber),
-                        QtCore.Qt.DisplayRole
-                    )
-                    for columnNumber in range(self.model.columnCount())
-                ]
-                writer.writerow(fields)
+if __name__ == "__main__":
+    import sys
+    filename = "log.csv"
+    app = QtWidgets.QApplication(sys.argv)
+    app.setApplicationName('Uptimer')
 
-    @QtCore.pyqtSlot()
-    def on_pushButtonWrite_clicked(self):
-        self.writeCsv(self.fileName)
+    main = ViewLog("log.csv")
+    main.show()
 
-    @QtCore.pyqtSlot()
-    def on_pushButtonLoad_clicked(self):
-        self.loadCsv(self.fileName)
-
-# if __name__ == "__main__":
-#     import sys
-#     filename = "log.csv"
-#     app = QtWidgets.QApplication(sys.argv)
-#     app.setApplicationName('Uptimer')
-
-#     main = ViewLog("log.csv")
-#     main.show()
-
-#     sys.exit(app.exec_())
+    sys.exit(app.exec_())
