@@ -6,7 +6,7 @@
  
 ## Usage
  Simply run 
- `python tray.py`
+ `python tray.pyw`
  
  I will be releasing it as a standalone in the future, however.
  
