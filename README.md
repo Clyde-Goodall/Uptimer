@@ -8,7 +8,7 @@
  Simply run 
  `python tray.pyw`
  
- I will be releasing it as a standalone in the future, however.
+ I plan on releasing it as a standalone in the future, however.
  
 ## TODO
  charting of outage occurrence/duration, optional mailer.
