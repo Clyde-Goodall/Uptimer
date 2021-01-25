@@ -1,7 +1,8 @@
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-import sys, os, up
+import sys, os, up, platform
 # from multiprocessing import Process
+import subprocess
 from subprocess import Popen, PIPE
 
 class UptimerTray():
@@ -9,15 +10,18 @@ class UptimerTray():
 
     #initialization
     def __init__(self):
-        self.background = None
-        self.window = None
+        
+        #platform-specific subprocess window flags (Currently only specified for windows)
+        self.startupinfo = None
+        if platform.system() == 'Windows':
+            self.platform_info = subprocess.STARTUPINFO()
+            self.platform_info.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
         self.uptimer_tray_application = QApplication(sys.argv)
         self.uptimer_tray_application.setQuitOnLastWindowClosed(False)
         self.window = QWidget()
-        self.window
 
-
+        #tray menu icon
         self.icon = QIcon("icon.png")
         self.tray = QSystemTrayIcon()
         self.tray.setIcon(self.icon)
@@ -37,21 +41,24 @@ class UptimerTray():
 
         #Menu actions
         self.menu.addAction(self.menu_view)
+        self.menu.addSeparator()
         self.menu.addAction(self.menu_start)
         self.menu.addAction(self.menu_pause)
-   
+        self.menu.addSeparator()
         self.menu.addAction(self.menu_exit)
 
+        #append menu to tray application
         self.tray.setContextMenu(self.menu)
 
         self.start()
 
         self.uptimer_tray_application.exec_()
 
- 
+
     def view_log(self):
         try:
-            self.window = Popen(['python', 'view.py'])
+            self.window = Popen(['python', 'view.py'], shell=True)    
+            print("Viewing log")
         except Exception as e:
             print(e)
 
@@ -67,7 +74,9 @@ class UptimerTray():
 
     def start(self):
         try:
-            self.background = Popen(['python', 'up.py'])
+            self.background = Popen(['python', 'up.py'], shell=False, startupinfo=self.platform_info)
+            self.menu_start.setEnabled(False)
+            self.menu_pause.setEnabled(True)
             print("Started")
         except:
             print("Unable to start Uptimer background task")
@@ -76,6 +85,8 @@ class UptimerTray():
     def pause(self):
         try:
             self.background.terminate()
+            self.menu_start.setEnabled(True)
+            self.menu_pause.setEnabled(False)
             print("Paused")
         except:
             print("Background process likely not initialized, unable to pause.")

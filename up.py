@@ -56,6 +56,8 @@ class Uptimer:
                 self.elapsed = timer() - self.disc
                 print("downtime: " + str(self.elapsed))
                 self.record(self.time_of_outage, self.elapsed)
+                self.elapsed = 0
+                self.disc = 0
                 self.notify("Connection back online")
                 
                 

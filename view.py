@@ -5,7 +5,7 @@ import ctypes
 
 class ViewLog(QtWidgets.QWidget):
     def __init__(self, fileName, parent=None):
-        self.id = 'uptimer'
+        self.id = "uptimer"
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(self.id)
 
         super(ViewLog, self).__init__(parent)
@@ -18,7 +18,7 @@ class ViewLog(QtWidgets.QWidget):
         self.tableView.setModel(self.model)
         self.tableView.horizontalHeader().setStretchLastSection(True)
         self.resize(350, 500)
-
+        self.tableView.setHorizontalScrollBarPolicy(QtGui.ScrollBarAlwaysOff)
 
         self.layoutVertical = QtWidgets.QVBoxLayout(self)
         self.layoutVertical.addWidget(self.tableView)
@@ -27,20 +27,26 @@ class ViewLog(QtWidgets.QWidget):
         self.loadCsv(fileName)
 
     def loadCsv(self, fileName):
+        self.columns = ['Date', 'Time', 'Downtime (s)']
+   
         with open(fileName, "r") as fileInput:
-            for row in csv.reader(fileInput):    
+            
+            for row in csv.reader(fileInput):   
+   
                 items = [
                     QtGui.QStandardItem(field)
                     for field in row
                 ]
                 self.model.appendRow(items)
+        for c in range(3):
+            self.model.setHeaderData(c, QtCore.Qt.Horizontal, self.columns[c])
 
 if __name__ == "__main__":
     import sys
     filename = "log.csv"
     app = QtWidgets.QApplication(sys.argv)
-    app.setApplicationName('Uptimer')
-    app.setWindowIcon(QtGui.QIcon('icon.ico'))
+    app.setApplicationName("Uptimer")
+    app.setWindowIcon(QtGui.QIcon("icon.ico"))
 
     main = ViewLog("log.csv")
     main.show()
