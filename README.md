@@ -12,6 +12,7 @@
  
 ## TODO
  charting of outage occurrence/duration, optional mailer.
+ 
  Fix accuracy of downtime. It is currently *very* unreliable and I would not use it as a metric.
  
 ## Dependencies
