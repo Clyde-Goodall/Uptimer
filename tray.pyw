@@ -57,7 +57,7 @@ class UptimerTray():
 
     def view_log(self):
         try:
-            self.window = Popen(['python', 'view.py'], shell=True)    
+            self.window = Popen(['python', 'C:/Users/gooda/Documents/DEV/connection-tester/view.py'], shell=True)    
             print("Viewing log")
         except Exception as e:
             print(e)
@@ -74,7 +74,7 @@ class UptimerTray():
 
     def start(self):
         try:
-            self.background = Popen(['python', 'up.py'], shell=False, startupinfo=self.platform_info)
+            self.background = Popen(['python', 'C:/Users/gooda/Documents/DEV/connection-tester/up.py'], shell=False, startupinfo=self.platform_info)
             self.menu_start.setEnabled(False)
             self.menu_pause.setEnabled(True)
             print("Started")
