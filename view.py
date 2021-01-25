@@ -18,7 +18,6 @@ class ViewLog(QtWidgets.QWidget):
         self.tableView.setModel(self.model)
         self.tableView.horizontalHeader().setStretchLastSection(True)
         self.resize(350, 500)
-        self.tableView.setHorizontalScrollBarPolicy(QtGui.ScrollBarAlwaysOff)
 
         self.layoutVertical = QtWidgets.QVBoxLayout(self)
         self.layoutVertical.addWidget(self.tableView)
