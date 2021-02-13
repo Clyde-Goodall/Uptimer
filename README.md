@@ -5,8 +5,9 @@
  I want a tangible, visual representation of how often my connection goes out every day. Works for any connection, and will yield a CSV file as a log.
  
 ## Usage
- Simply run 
+ Simply run
  `python tray.pyw`
+ or open it as you would any executable
  
  I plan on releasing it as a standalone in the future, however.
  
