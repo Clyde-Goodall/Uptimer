@@ -1,5 +1,6 @@
 import csv, sys
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 import ctypes
 
@@ -26,7 +27,7 @@ class ViewLog(QtWidgets.QWidget):
         self.loadCsv(fileName)
 
     def loadCsv(self, fileName):
-        self.columns = ['Date', 'Time', 'Downtime (s)']
+        self.columns = ['Date', 'Time']
    
         with open(fileName, "r") as fileInput:
             
@@ -37,8 +38,11 @@ class ViewLog(QtWidgets.QWidget):
                     for field in row
                 ]
                 self.model.appendRow(items)
-        for c in range(3):
+        for c in range(2):
             self.model.setHeaderData(c, QtCore.Qt.Horizontal, self.columns[c])
+
+    # def buildGraph(self, data):
+    #     #todo
 
 if __name__ == "__main__":
     import sys

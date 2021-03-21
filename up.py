@@ -74,7 +74,7 @@ class Uptimer:
         with open('log.csv', 'a+', newline='') as c:
             writer = csv.writer(c)
             print("Instance recorded")
-            writer.writerow([outage_date, time, elapsed])
+            writer.writerow([outage_date, time])
 
 
     def init_schedule(self):
